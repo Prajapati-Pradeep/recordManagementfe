@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import type { FormProps } from "antd";
-import { Button, Card, Form, Input } from "antd";
+import { Button, Card, Form, Input, Typography } from "antd";
+const { Text, Title, Link } = Typography;
 
 type FieldType = {
   email: string;
@@ -16,9 +17,9 @@ const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 
-const App: React.FC = () => (
+const UserLoginPage: React.FC = () => (
   <div className="flex items-center justify-center h-screen flex-col">
-    <div className="text-3xl text-black mb-3">Login</div>
+    <Title className="text-3xl text-black mb-3">Login</Title>
     <Card className="p-2 w-full sm:w-1/3 md:w-480">
       <Form
         name="basic"
@@ -51,10 +52,14 @@ const App: React.FC = () => (
           <Button type="primary" htmlType="submit" className="w-full">
             Login
           </Button>
+          <div className="mt-2">
+            <Text>{"Don't have an account?"}</Text>
+            <Link href="/signup">Sign up now</Link>
+          </div>
         </Form.Item>
       </Form>
     </Card>
   </div>
 );
 
-export default App;
+export default UserLoginPage;

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Button, Form, Input, InputNumber } from "antd";
-import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 const layout = {
   labelCol: { span: 8 },
@@ -25,22 +25,23 @@ const onFinish = (values: any) => {
   console.log(values);
 };
 
-const App: React.FC = () => {
-  const router = useRouter();
+const ClientRegistrationPage: React.FC = () => {
+  const { serial_no } = useParams();
   return (
     <Form
       {...layout}
       name="nest-messages"
       onFinish={onFinish}
-      style={{ maxWidth: 600 }}
+      layout="vertical"
       validateMessages={validateMessages}
+      className="w-1/3"
     >
       <Form.Item
-        name={["user", "name"]}
-        label="Name"
+        name={"serial_no"}
+        label="Serial Number"
         rules={[{ required: true }]}
       >
-        <Input />
+        <Input value={serial_no} disabled name={"serial_no"} />
       </Form.Item>
       <Form.Item
         name={["user", "email"]}
@@ -71,4 +72,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default ClientRegistrationPage;
