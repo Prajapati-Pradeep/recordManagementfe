@@ -2,6 +2,7 @@
 import { AddUser } from "@/services";
 import { useMutation } from "@tanstack/react-query";
 import { Button, Card, Form, Input, message, Typography } from "antd";
+import { useRouter } from "next/navigation";
 import React from "react";
 const { Title } = Typography;
 
@@ -31,11 +32,13 @@ const tailFormItemLayout = {
 
 const SignupForm = () => {
   const [form] = Form.useForm();
+  const router = useRouter();
 
   const { mutate, isPending } = useMutation({
     mutationFn: AddUser,
     onSuccess: () => {
       message.success("User added successfully");
+      router.push("/login");
     },
     onError: (err: any) => {
       message.error(err?.response?.data?.message || "Some thing went wrong");
@@ -54,10 +57,6 @@ const SignupForm = () => {
           form={form}
           name="register"
           onFinish={onFinish}
-          initialValues={{
-            residence: ["zhejiang", "hangzhou", "xihu"],
-            prefix: "86",
-          }}
           style={{ maxWidth: 600 }}
           scrollToFirstError
         >
@@ -118,7 +117,12 @@ const SignupForm = () => {
           </Form.Item>
 
           <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={isPending}
+              disabled={isPending}
+            >
               Register
             </Button>
           </Form.Item>
