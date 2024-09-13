@@ -1,5 +1,7 @@
 "use client";
-import { Button, Card, Form, Input, Typography } from "antd";
+import { AddUser } from "@/services";
+import { useMutation } from "@tanstack/react-query";
+import { Button, Card, Form, Input, message, Typography } from "antd";
 import React from "react";
 const { Title } = Typography;
 
@@ -30,8 +32,17 @@ const tailFormItemLayout = {
 const SignupForm = () => {
   const [form] = Form.useForm();
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: AddUser,
+    onSuccess: () => {
+      message.success("User added successfully");
+    },
+    onError: (err: any) => {
+      message.error(err?.response?.data?.message || "Some thing went wrong");
+    },
+  });
   const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
+    mutate({ email: values.email, password: values.password });
   };
 
   return (
