@@ -2,8 +2,7 @@
 import React from "react";
 import type { FormProps } from "antd";
 import { Button, Card, Form, Input, message, Typography } from "antd";
-import { useMutation } from "@tanstack/react-query";
-import { UserLogin } from "@/services";
+import { signIn, useSession } from "next-auth/react";
 const { Text, Title, Link } = Typography;
 
 type FieldType = {
@@ -12,19 +11,36 @@ type FieldType = {
 };
 
 const LoginForm: React.FC = () => {
-  const { mutate } = useMutation({
-    mutationFn: UserLogin,
-    onSuccess: () => {
-      message.success("Successfully Logged in");
-    },
-    onError: (err: any) => {
-      debugger;
-      message.error(err?.response?.data?.message || "Some thing went wrong");
-    },
-  });
+  const { data: session } = useSession();
+  console.log("=============>", session);
+
+  // const { mutate } = useMutation({
+  //   mutationFn: UserLogin,
+  //   onSuccess: (data) => {
+  //     debugger;
+  //     message.success("Successfully Logged in");
+  //   },
+  //   onError: (err: any) => {
+  //     debugger;
+  //     message.error(err?.response?.data?.message || "Some thing went wrong");
+  //   },
+  // });
+
+  const authenticateUser = async (values: {
+    email: string;
+    password: string;
+  }) => {
+    const res = await signIn("credentials", {
+      redirect: false,
+      email: values.email,
+      password: values.password,
+      callbackUrl: `${window.location.origin}/signup`,
+    });
+    console.log("??????", res);
+  };
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    mutate(values);
+    authenticateUser(values);
   };
   return (
     <div className="flex items-center justify-center h-screen flex-col">
