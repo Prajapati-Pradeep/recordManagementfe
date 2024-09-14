@@ -4,7 +4,7 @@ import axios from "axios";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { API } from "@/libs/axios";
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/login",
@@ -24,9 +24,9 @@ export const authOptions: NextAuthOptions = {
         password: { label: "password", type: "password" },
       },
       async authorize(credentials) {
-        // if (!credentials?.email || !credentials.password) {
-        //   return null;
-        // }
+        if (!credentials?.email || !credentials.password) {
+          return null;
+        }
 
         // api call
         try {
@@ -34,9 +34,11 @@ export const authOptions: NextAuthOptions = {
             email: credentials?.email,
             password: credentials?.password,
           });
-          const { data } = response;
+          const {
+            data: { data },
+          } = response;
           return data;
-        } catch (err) {
+        } catch (err: any) {
           return null;
         }
       },
@@ -44,25 +46,22 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     session: ({ session, token }) => {
-      console.log("Token>>>>>>>>>>>>>>>>>>", token);
-      console.log("Session>>>>>>>>>>>>>>>>>>", session);
       return {
         ...session,
         user: {
           ...session.user,
-          access_token: token.access_token,
+          accessToken: token.accessToken,
+          role: token.role,
         },
       };
     },
     jwt: ({ token, user }) => {
       if (user) {
         const u = user as unknown as any;
-        console.log("User:>>>>>>", user);
-        console.log("Token:>>>>>>", token);
         return {
           ...token,
-          id: u.id,
-          access_token: u.access_token,
+          accessToken: u.accessToken,
+          role: u.role,
         };
       }
       return token;

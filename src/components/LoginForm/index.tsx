@@ -12,7 +12,6 @@ type FieldType = {
 
 const LoginForm: React.FC = () => {
   const { data: session } = useSession();
-  console.log("=============>", session);
 
   // const { mutate } = useMutation({
   //   mutationFn: UserLogin,
@@ -30,13 +29,19 @@ const LoginForm: React.FC = () => {
     email: string;
     password: string;
   }) => {
-    const res = await signIn("credentials", {
-      redirect: false,
-      email: values.email,
-      password: values.password,
-      callbackUrl: `${window.location.origin}/signup`,
-    });
-    console.log("??????", res);
+    try {
+      const res: any = await signIn("credentials", {
+        redirect: false,
+        email: values.email,
+        password: values.password,
+        callbackUrl: `${window.location.origin}/signup`,
+      });
+      if (res?.error) {
+        message.error("Email or password is incorrect");
+      }
+    } catch (err: any) {
+      message.error(err?.response?.data?.message || "Some thing went wrong");
+    }
   };
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
