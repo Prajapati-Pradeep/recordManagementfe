@@ -1,4 +1,5 @@
-import { API } from "@/libs/axios";
+import { API, AUTHAPI } from "@/libs/axios";
+import useAxiosAuth from "@/libs/hooks/useAxiosHook";
 
 export const AddUser = async (data: { email: string; password: string }) => {
   return await API.post(`/api/user/create-user`, data);

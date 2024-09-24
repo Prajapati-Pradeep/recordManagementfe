@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import type { FormProps } from "antd";
-import { Button, Card, Form, Input, message, Typography } from "antd";
+import { Button, Card, Form, Input, message, Spin, Typography } from "antd";
 import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 const { Text, Title, Link } = Typography;
 
 type FieldType = {
@@ -11,19 +12,20 @@ type FieldType = {
 };
 
 const LoginForm: React.FC = () => {
-  const { data: session } = useSession();
+  const { data, status } = useSession();
+  const router = useRouter();
 
-  // const { mutate } = useMutation({
-  //   mutationFn: UserLogin,
-  //   onSuccess: (data) => {
-  //     debugger;
-  //     message.success("Successfully Logged in");
-  //   },
-  //   onError: (err: any) => {
-  //     debugger;
-  //     message.error(err?.response?.data?.message || "Some thing went wrong");
-  //   },
-  // });
+  useEffect(() => {
+    console.log("++++++++++++++", data?.user?.role);
+    if (status === "authenticated") {
+      if (data?.user?.role === " super-admin") {
+        router.push("/user");
+        return;
+      }
+      router.push("/scanner");
+      return;
+    }
+  }, [status, router]);
 
   const authenticateUser = async (values: {
     email: string;
@@ -47,6 +49,14 @@ const LoginForm: React.FC = () => {
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     authenticateUser(values);
   };
+
+  if (status === "loading") {
+    return (
+      <div className="flex items-center justify-center">
+        <Spin size="large" />
+      </div>
+    );
+  }
   return (
     <div className="flex items-center justify-center h-screen flex-col">
       <Title className="text-3xl text-black mb-3">Login</Title>
