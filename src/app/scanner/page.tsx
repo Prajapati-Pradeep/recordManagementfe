@@ -1,14 +1,31 @@
+"use client";
 import { QRScanner } from "@/components";
-import React from "react";
+import { Button, Result } from "antd";
+import { ScanOutlined } from "@ant-design/icons";
+import React, { useState } from "react";
 
 const Scanner = () => {
-  return (
-    <div>
-      This is scanner
-      <div className="flex items-center justify-center">
-        <QRScanner />
+  const [soScanner, setSoScanner] = useState(false);
+  if (soScanner) {
+    return (
+      <div>
+        <div className="flex items-center justify-center">
+          <QRScanner />
+        </div>
       </div>
-    </div>
+    );
+  }
+  return (
+    <Result
+      icon={<ScanOutlined />}
+      title="Scan the QR on your stove"
+      subTitle="Scan the QR code located on your gas stove and complete the form afterward."
+      extra={[
+        <Button type="primary" key="scan" onClick={() => setSoScanner(true)}>
+          {"Let's Scan"}
+        </Button>,
+      ]}
+    />
   );
 };
 

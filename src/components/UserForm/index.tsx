@@ -1,7 +1,8 @@
 "use client";
+import { AUTHAPI } from "@/libs/axios";
 import { AddUser } from "@/services";
 import { useMutation } from "@tanstack/react-query";
-import { Button, Card, Form, Input, message, Typography } from "antd";
+import { Button, Card, Form, Input, message, Select, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import React from "react";
 const { Title } = Typography;
@@ -30,9 +31,17 @@ const tailFormItemLayout = {
   },
 };
 
-const SignupForm = () => {
+const SignupForm: React.FC<{ id?: string }> = ({ id }) => {
   const [form] = Form.useForm();
   const router = useRouter();
+
+  const AddUser = async (data: {
+    email: string;
+    password: string;
+    role: string;
+  }) => {
+    return await AUTHAPI.post(`/api/user/create-user`, data);
+  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: AddUser,
@@ -45,12 +54,18 @@ const SignupForm = () => {
     },
   });
   const onFinish = (values: any) => {
-    mutate({ email: values.email, password: values.password });
+    mutate({
+      email: values.email,
+      password: values.password,
+      role: values.role,
+    });
   };
 
   return (
     <div className="flex items-center justify-center h-screen flex-col">
-      <Title className="text-3xl text-black mb-3">Sign up</Title>
+      <Title className="text-3xl text-black mb-3">
+        {id ? "Edit User" : "User Registration"}
+      </Title>
       <Card className="p-2 w-full sm:w-1/3 md:w-480">
         <Form
           {...formItemLayout}
@@ -114,6 +129,22 @@ const SignupForm = () => {
             ]}
           >
             <Input.Password />
+          </Form.Item>
+
+          <Form.Item
+            name="role"
+            label="Role"
+            rules={[
+              {
+                required: true,
+                message: "Please select role",
+              },
+            ]}
+          >
+            <Select defaultValue={"analyst"}>
+              <Select.Option value={"analyst"}>{"Analyst"}</Select.Option>
+              <Select.Option value={"supervisor"}>{"Supervisor"}</Select.Option>
+            </Select>
           </Form.Item>
 
           <Form.Item {...tailFormItemLayout}>

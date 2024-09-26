@@ -25,7 +25,7 @@ const QRScanner = () => {
   };
 
   return (
-    <div>
+    <div className="p-1 m-2 border-black border-2">
       <QrReader
         delay={delay}
         style={previewStyle}
