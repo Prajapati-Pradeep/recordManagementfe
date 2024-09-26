@@ -16,7 +16,6 @@ const LoginForm: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("++++++++++++++", data?.user?.role);
     if (status === "authenticated") {
       if (data?.user?.role === " super-admin") {
         router.push("/user");
@@ -60,7 +59,7 @@ const LoginForm: React.FC = () => {
   return (
     <div className="flex items-center justify-center h-screen flex-col">
       <Title className="text-3xl text-black mb-3">Login</Title>
-      <Card className="p-2 w-full sm:w-1/3 md:w-480">
+      <Card className="p-2 w-full md:w-2/3  lg:w-[30rem] ">
         <Form
           name="basic"
           initialValues={{ remember: true }}
@@ -91,10 +90,10 @@ const LoginForm: React.FC = () => {
             <Button type="primary" htmlType="submit" className="w-full">
               Login
             </Button>
-            <div className="mt-2">
+            {/* <div className="mt-2">
               <Text>{"Don't have an account?"}</Text>
               <Link href="/signup">Sign up now</Link>
-            </div>
+            </div> */}
           </Form.Item>
         </Form>
       </Card>

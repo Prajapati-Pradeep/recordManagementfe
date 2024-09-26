@@ -16,7 +16,11 @@
   }
 }
 
-body {
+.ant-menu .ant-menu-submenu-arrow {
+  display: none !important;
+}
+.ant-menu-light.ant-menu-root.ant-menu-inline {
+  border-inline-end: none !important;
 }
 
 @layer utilities {
