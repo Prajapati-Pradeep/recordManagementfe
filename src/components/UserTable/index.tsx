@@ -1,15 +1,18 @@
 "use client";
 import useAxiosAuth from "@/libs/hooks/useAxiosHook";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { notification, Popconfirm, Space, Table } from "antd";
+import { Button, notification, Popconfirm, Space, Table } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
+import { PageActions } from "../PageAction";
+import { useRouter } from "next/navigation";
 
 const UserTable = () => {
   const AuthAPI = useAxiosAuth();
   const session = useSession();
+  const Router = useRouter();
 
   const getUsers = async () => {
     return await AuthAPI.get(`/api/user`);
@@ -54,7 +57,6 @@ const UserTable = () => {
     //   dataIndex: "password",
     //   key: "password",
     //   render: (record: any) => {
-    //     console.log(record);
     //     return record;
     //   },
     // },
@@ -97,14 +99,23 @@ const UserTable = () => {
     },
   ];
 
-  console.log(data?.data?.data);
   return (
-    <div className="px-20 mt-5 mx-auto">
+    <div className="px-5 md:px-10 lg:px-20 mt-5 mx-auto">
+      <PageActions
+        className="site-page-header"
+        title="User Table"
+        extra={
+          <Button type="primary" onClick={() => Router.push("/user/add")}>
+            Add User
+          </Button>
+        }
+      />
       <Table
         dataSource={data?.data?.data || []}
         columns={columns}
         bordered
         loading={isLoading || isFetching}
+        scroll={{ x: "overflow" }}
         // t={data?.data?.count}
       />
     </div>

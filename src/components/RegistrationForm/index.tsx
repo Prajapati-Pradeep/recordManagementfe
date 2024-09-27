@@ -18,7 +18,6 @@ const validateMessages = {
 /* eslint-enable no-template-curly-in-string */
 
 const onFinish = (values: any) => {
-  debugger;
   console.log(values);
 };
 

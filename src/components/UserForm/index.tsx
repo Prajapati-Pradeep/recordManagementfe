@@ -1,53 +1,31 @@
 "use client";
-import { AUTHAPI } from "@/libs/axios";
-import { AddUser } from "@/services";
 import { useMutation } from "@tanstack/react-query";
 import { Button, Card, Form, Input, message, Select, Typography } from "antd";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
+import { PageActions } from "../PageAction";
+import useAxiosAuth from "@/libs/hooks/useAxiosHook";
 const { Title } = Typography;
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 16 },
-  },
-};
-
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
 
 const SignupForm: React.FC<{ id?: string }> = ({ id }) => {
   const [form] = Form.useForm();
   const router = useRouter();
+  const param = useParams();
+  const AuthApi = useAxiosAuth();
 
   const AddUser = async (data: {
     email: string;
     password: string;
     role: string;
   }) => {
-    return await AUTHAPI.post(`/api/user/create-user`, data);
+    return await AuthApi.post(`/api/user/create-user`, data);
   };
 
   const { mutate, isPending } = useMutation({
     mutationFn: AddUser,
     onSuccess: () => {
       message.success("User added successfully");
-      router.push("/login");
+      router.push("/user");
     },
     onError: (err: any) => {
       message.error(err?.response?.data?.message || "Some thing went wrong");
@@ -62,18 +40,25 @@ const SignupForm: React.FC<{ id?: string }> = ({ id }) => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen flex-col">
-      <Title className="text-3xl text-black mb-3">
-        {id ? "Edit User" : "User Registration"}
-      </Title>
-      <Card className="p-2 w-full sm:w-1/3 md:w-480">
+    <div className="px-5 md:px-10 lg:px-20 mt-5 mx-auto">
+      <PageActions
+        title={id ? "Edit User" : "User Registration"}
+        backUrl={"/user"}
+      />
+      <Card className="p-1 md:p-2 w-full">
         <Form
-          {...formItemLayout}
           form={form}
           name="register"
           onFinish={onFinish}
           style={{ maxWidth: 600 }}
           scrollToFirstError
+          layout="vertical"
+          initialValues={{
+            email: "",
+            password: "",
+            confirm: "",
+            role: "analyst",
+          }}
         >
           <Form.Item
             name="email"
@@ -141,13 +126,13 @@ const SignupForm: React.FC<{ id?: string }> = ({ id }) => {
               },
             ]}
           >
-            <Select defaultValue={"analyst"}>
+            <Select>
               <Select.Option value={"analyst"}>{"Analyst"}</Select.Option>
               <Select.Option value={"supervisor"}>{"Supervisor"}</Select.Option>
             </Select>
           </Form.Item>
 
-          <Form.Item {...tailFormItemLayout}>
+          <Form.Item>
             <Button
               type="primary"
               htmlType="submit"

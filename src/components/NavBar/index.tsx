@@ -12,7 +12,7 @@ const Navbar = () => {
 
   return (
     <nav className="navbar sticky top-0 z-[0]">
-      <Layout.Header className="nav-header px-4 lg:px-10 !bg-white flex items-center justify-between">
+      <Layout.Header className="nav-header  px-4 md:px-7 lg:px-10 !bg-white flex items-center justify-between">
         <div className="logo  w-[400px]">
           <h3 className="brand-font text-sm md:text-base lg:text-2xl capitalize">
             Record Management System

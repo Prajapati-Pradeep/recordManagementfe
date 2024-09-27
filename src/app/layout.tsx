@@ -7,7 +7,6 @@ import { getServerSession } from "next-auth";
 
 const RootLayout = async ({ children }: React.PropsWithChildren) => {
   const session = await getServerSession();
-
   return (
     <html lang="en">
       <body>

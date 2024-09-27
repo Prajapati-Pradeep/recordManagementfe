@@ -1,10 +1,10 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import type { FormProps } from "antd";
 import { Button, Card, Form, Input, message, Spin, Typography } from "antd";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-const { Text, Title, Link } = Typography;
+const { Title } = Typography;
 
 type FieldType = {
   email: string;
@@ -14,22 +14,28 @@ type FieldType = {
 const LoginForm: React.FC = () => {
   const { data, status } = useSession();
   const router = useRouter();
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (status === "authenticated") {
-      if (data?.user?.role === " super-admin") {
+      if (data?.role === "super-admin" || data?.user?.role === "super-admin") {
         router.push("/user");
         return;
       }
       router.push("/scanner");
       return;
     }
+    if (status === "unauthenticated") {
+      return router.push("/login");
+    }
+    return router.push("/");
   }, [status, router]);
 
   const authenticateUser = async (values: {
     email: string;
     password: string;
   }) => {
+    setLoading(true);
+
     try {
       const res: any = await signIn("credentials", {
         redirect: false,
@@ -43,19 +49,13 @@ const LoginForm: React.FC = () => {
     } catch (err: any) {
       message.error(err?.response?.data?.message || "Some thing went wrong");
     }
+    setLoading(false);
   };
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     authenticateUser(values);
   };
 
-  if (status === "loading") {
-    return (
-      <div className="flex items-center justify-center">
-        <Spin size="large" />
-      </div>
-    );
-  }
   return (
     <div className="flex items-center justify-center h-screen flex-col">
       <Title className="text-3xl text-black mb-3">Login</Title>
@@ -87,7 +87,12 @@ const LoginForm: React.FC = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="w-full">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="w-full"
+              loading={loading}
+            >
               Login
             </Button>
             {/* <div className="mt-2">

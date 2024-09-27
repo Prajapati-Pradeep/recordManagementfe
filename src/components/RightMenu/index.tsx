@@ -18,7 +18,7 @@ const RightMenu: React.FC<{ mode: any }> = ({ mode }) => {
           <Menu.Item
             key="logout"
             onClick={async () => {
-              await signOut();
+              await signOut({ redirect: false });
               router.push("/login");
             }}
           >
@@ -37,7 +37,7 @@ const RightMenu: React.FC<{ mode: any }> = ({ mode }) => {
       <Menu.Item
         key="logout"
         onClick={async () => {
-          await signOut();
+          await signOut({ redirect: false });
           router.push("/login");
         }}
       >
