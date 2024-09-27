@@ -11,15 +11,14 @@ const RightMenu: React.FC<{ mode: any }> = ({ mode }) => {
   if (mode === "desktop") {
     return (
       <Menu mode={"vertical"} className="text-base font-medium">
-        <Menu.SubMenu title={<Avatar icon={<UserOutlined />} />}>
+        <Menu.SubMenu title={<Avatar icon={<UserOutlined />} key="32" />}>
           <Menu.Item key="profile">
             <UserOutlined /> {session?.data?.user?.email}
           </Menu.Item>
           <Menu.Item
             key="logout"
-            onClick={async () => {
-              await signOut({ redirect: false });
-              router.push("/login");
+            onClick={() => {
+              signOut({ callbackUrl: "/" });
             }}
           >
             <LogoutOutlined /> Logout
@@ -36,9 +35,8 @@ const RightMenu: React.FC<{ mode: any }> = ({ mode }) => {
       </Menu.Item>
       <Menu.Item
         key="logout"
-        onClick={async () => {
-          await signOut({ redirect: false });
-          router.push("/login");
+        onClick={() => {
+          signOut({ callbackUrl: "/" });
         }}
       >
         <LogoutOutlined /> Logout

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import type { FormProps } from "antd";
 import { Button, Card, Form, Input, message, Spin, Typography } from "antd";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 const { Title } = Typography;
 
@@ -12,40 +12,24 @@ type FieldType = {
 };
 
 const LoginForm: React.FC = () => {
-  const { data, status } = useSession();
-  const router = useRouter();
+  const Router = useRouter();
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    if (status === "authenticated") {
-      if (data?.role === "super-admin" || data?.user?.role === "super-admin") {
-        router.push("/user");
-        return;
-      }
-      router.push("/scanner");
-      return;
-    }
-    if (status === "unauthenticated") {
-      return router.push("/login");
-    }
-    return router.push("/");
-  }, [status, router]);
-
   const authenticateUser = async (values: {
     email: string;
     password: string;
   }) => {
     setLoading(true);
-
     try {
       const res: any = await signIn("credentials", {
         redirect: false,
         email: values.email,
         password: values.password,
-        callbackUrl: `${window.location.origin}/signup`,
+        callbackUrl: `${window.location.origin}/`,
       });
       if (res?.error) {
         message.error("Email or password is incorrect");
       }
+      Router.push("/");
     } catch (err: any) {
       message.error(err?.response?.data?.message || "Some thing went wrong");
     }
