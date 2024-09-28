@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { PageActions } from "../PageAction";
 import useAxiosAuth from "@/libs/hooks/useAxiosHook";
+import { Role } from "@/constant";
 const { Title } = Typography;
 
 const SignupForm: React.FC<{ id?: string }> = ({ id }) => {
@@ -127,8 +128,10 @@ const SignupForm: React.FC<{ id?: string }> = ({ id }) => {
             ]}
           >
             <Select>
-              <Select.Option value={"analyst"}>{"Analyst"}</Select.Option>
-              <Select.Option value={"supervisor"}>{"Supervisor"}</Select.Option>
+              <Select.Option value={Role.ANALYST}>{"Analyst"}</Select.Option>
+              <Select.Option value={Role.SUPERVISOR}>
+                {"Supervisor"}
+              </Select.Option>
             </Select>
           </Form.Item>
 

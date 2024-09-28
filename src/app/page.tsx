@@ -2,19 +2,20 @@ import { Spin } from "antd";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./(auth)/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
+import { Role } from "@/constant";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
   if (!session) {
     redirect("/login");
   }
-  if (session?.user?.role === "super-admin") {
+  if (session?.user?.role === Role.ADMIN) {
     redirect("/user");
   }
-  if (session?.user?.role === "analyst") {
+  if (session?.user?.role === Role.ANALYST) {
     redirect("/scanner");
   }
-  if (session?.user?.role === "supervisor") {
+  if (session?.user?.role === Role.SUPERVISOR) {
     redirect("/scanner");
   }
 
