@@ -30,11 +30,19 @@ const SignupForm: React.FC = () => {
   }) => {
     return await AuthApi.post(`/api/user/create-user`, data);
   };
+
+  const UpdateUser = async (data: {
+    email: string;
+    password: string;
+    role: string;
+  }) => {
+    return await AuthApi.put(`/api/user/${id}`, data);
+  };
   const GetUserById = async ({ id }: any) => {
     return await AuthApi.get(`/api/user/${id}`);
   };
   const { mutate, isPending } = useMutation({
-    mutationFn: AddUser,
+    mutationFn: id ? UpdateUser : AddUser,
     onSuccess: () => {
       message.success("User added successfully");
       router.push("/user");
@@ -118,7 +126,7 @@ const SignupForm: React.FC = () => {
               label="Password"
               rules={[
                 {
-                  required: true,
+                  required: !id,
                   message: "Please input your password!",
                 },
               ]}
@@ -134,7 +142,7 @@ const SignupForm: React.FC = () => {
               hasFeedback
               rules={[
                 {
-                  required: true,
+                  required: !id,
                   message: "Please confirm your password!",
                 },
                 ({ getFieldValue }) => ({
@@ -179,7 +187,7 @@ const SignupForm: React.FC = () => {
                 loading={isPending}
                 disabled={isPending}
               >
-                Register
+                {id ? "Edit User" : "Register User"}
               </Button>
             </Form.Item>
           </Form>
