@@ -44,7 +44,9 @@ const SignupForm: React.FC = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: id ? UpdateUser : AddUser,
     onSuccess: () => {
-      message.success("User added successfully");
+      message.success(
+        id ? "User updated successfully" : "User added successfully"
+      );
       router.push("/user");
     },
     onError: (err: any) => {

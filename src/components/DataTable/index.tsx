@@ -14,14 +14,14 @@ const DataTable: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
   const Router = useRouter();
   const [page, setPage] = useState(1);
   const [openModal, setOpenModal] = useState(false);
-  const [image, setImage] = useState<string | null>(null);
+  const [modalData, setModalData] = useState<any>(null);
   const handlePageChange = (page: number) => {
     setPage(page);
   };
 
   const hideModal = () => {
     setOpenModal(false);
-    setImage(null);
+    setModalData(null);
   };
 
   const getData = async ({ page }: any) => {
@@ -78,26 +78,14 @@ const DataTable: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
       key: "photo_1",
       render: (data: string) => {
         return (
-          <>
-            <div className="!cursor-pointer">
-              <EyeFilled
-                onClick={() => {
-                  setOpenModal(true);
-                  setImage(data);
-                }}
-              />
-            </div>
-            {image && (
-              <Modal
-                title="Photo 1"
-                open={openModal}
-                onOk={hideModal}
-                onCancel={hideModal}
-              >
-                <Image src={image} />
-              </Modal>
-            )}
-          </>
+          <div className="!cursor-pointer">
+            <EyeFilled
+              onClick={() => {
+                setOpenModal(true);
+                setModalData({ img: data, title: "Photo 1" });
+              }}
+            />
+          </div>
         );
       },
     },
@@ -107,26 +95,14 @@ const DataTable: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
       key: "photo_2",
       render: (data: string) => {
         return (
-          <>
-            <div className="!cursor-pointer">
-              <EyeFilled
-                onClick={() => {
-                  setOpenModal(true);
-                  setImage(data);
-                }}
-              />
-            </div>
-            {image && (
-              <Modal
-                title="Photo 2"
-                open={openModal}
-                onOk={hideModal}
-                onCancel={hideModal}
-              >
-                <Image src={image} />
-              </Modal>
-            )}
-          </>
+          <div className="!cursor-pointer">
+            <EyeFilled
+              onClick={() => {
+                setOpenModal(true);
+                setModalData({ img: data, title: "Photo 2" });
+              }}
+            />
+          </div>
         );
       },
     },
@@ -136,26 +112,14 @@ const DataTable: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
       key: "photo_3",
       render: (data: string) => {
         return (
-          <>
-            <div className="cursor-pointer">
-              <EyeFilled
-                onClick={() => {
-                  setOpenModal(true);
-                  setImage(data);
-                }}
-              />
-            </div>
-            {image && (
-              <Modal
-                title="Photo 3"
-                open={openModal}
-                onOk={hideModal}
-                onCancel={hideModal}
-              >
-                <Image src={image} />
-              </Modal>
-            )}
-          </>
+          <div className="cursor-pointer">
+            <EyeFilled
+              onClick={() => {
+                setOpenModal(true);
+                setModalData({ img: data, title: "Photo 3" });
+              }}
+            />
+          </div>
         );
       },
     },
@@ -163,6 +127,16 @@ const DataTable: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
 
   return (
     <div className="px-5 md:px-10 lg:px-20 mt-5 mx-auto">
+      {modalData && (
+        <Modal
+          title={modalData?.title}
+          open={openModal}
+          onOk={hideModal}
+          onCancel={hideModal}
+        >
+          <Image src={modalData?.img} />
+        </Modal>
+      )}
       <PageActions
         className="site-page-header"
         title="Data Table"
