@@ -27,7 +27,6 @@ const UserTable = () => {
   };
 
   const getUsers = async ({ page }: any) => {
-    debugger;
     return await AuthAPI.get(`/api/user?page=${page}`);
   };
 
