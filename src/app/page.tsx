@@ -16,7 +16,7 @@ export default async function Home() {
     redirect("/scanner");
   }
   if (session?.user?.role === Role.SUPERVISOR) {
-    redirect("/scanner");
+    redirect("/data");
   }
 
   return (

@@ -84,7 +84,16 @@ const RegistrationForm: React.FC = () => {
   }
 
   const onFinish = (values: any) => {
-    mutate({ ...values, geo });
+    mutate({
+      ...values,
+      gps: geo,
+      photo_1:
+        "https://images.stockcake.com/public/e/5/7/e57e0e29-b97a-463e-9835-5ff0b52ce067_large/dog-running-happily-stockcake.jpg",
+      photo_2:
+        "https://images.stockcake.com/public/e/5/7/e57e0e29-b97a-463e-9835-5ff0b52ce067_large/dog-running-happily-stockcake.jpg",
+      photo_3:
+        "https://images.stockcake.com/public/e/5/7/e57e0e29-b97a-463e-9835-5ff0b52ce067_large/dog-running-happily-stockcake.jpg",
+    });
   };
 
   useEffect(() => {
@@ -132,7 +141,7 @@ const RegistrationForm: React.FC = () => {
           label="Air quality"
           rules={[{ required: true }]}
         >
-          <Input name="air_quality" />
+          <Input name="air_quality" addonAfter="Ppm" />
         </Form.Item>
         <Form.Item name={"photo_1"} label="Photo 1">
           <Upload>{uploadButton}</Upload>

@@ -6,3 +6,4 @@ export { QRScanner } from "./QrScanner";
 export { RegistrationForm } from "./RegistrationForm";
 export { PageActions } from "./PageAction";
 export { Scanner } from "./ScannerComponent";
+export { DataTable } from "./DataTable";

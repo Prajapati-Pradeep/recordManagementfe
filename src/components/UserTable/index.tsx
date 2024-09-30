@@ -1,11 +1,18 @@
 "use client";
 import useAxiosAuth from "@/libs/hooks/useAxiosHook";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Button, notification, Popconfirm, Space, Table } from "antd";
+import {
+  Button,
+  notification,
+  Pagination,
+  Popconfirm,
+  Space,
+  Table,
+} from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { PageActions } from "../PageAction";
 import { useRouter } from "next/navigation";
 
@@ -13,9 +20,15 @@ const UserTable = () => {
   const AuthAPI = useAxiosAuth();
   const session = useSession();
   const Router = useRouter();
+  const [page, setPage] = useState(1);
 
-  const getUsers = async () => {
-    return await AuthAPI.get(`/api/user`);
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
+
+  const getUsers = async ({ page }: any) => {
+    debugger;
+    return await AuthAPI.get(`/api/user?page=${page}`);
   };
 
   const deleteUser = async (id: any) => {
@@ -23,8 +36,8 @@ const UserTable = () => {
   };
 
   const { data, refetch, isLoading, isFetching } = useQuery({
-    queryKey: ["initial-users"],
-    queryFn: () => getUsers(),
+    queryKey: ["initial-users", page],
+    queryFn: () => getUsers({ page }),
     enabled: !!session,
     refetchOnWindowFocus: false,
   });
@@ -116,8 +129,16 @@ const UserTable = () => {
         bordered
         loading={isLoading || isFetching}
         scroll={{ x: "overflow" }}
-        // t={data?.data?.count}
+        pagination={false}
       />
+      <div className="mt-3 flex justify-end">
+        <Pagination
+          onChange={handlePageChange}
+          pageSize={10}
+          total={data?.data?.count}
+          hideOnSinglePage
+        />
+      </div>
     </div>
   );
 };
