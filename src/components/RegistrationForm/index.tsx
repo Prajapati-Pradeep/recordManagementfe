@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
-import { Button, Form, Input, InputNumber, Upload } from "antd";
-import { useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { Button, Form, Input, message, Upload } from "antd";
+import { useParams, useRouter } from "next/navigation";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosAuth from "@/libs/hooks/useAxiosHook";
 
-/* eslint-disable no-template-curly-in-string */
 const validateMessages = {
   required: "${label} is required!",
   types: {
@@ -15,16 +16,14 @@ const validateMessages = {
     range: "${label} must be between ${min} and ${max}",
   },
 };
-/* eslint-enable no-template-curly-in-string */
-
-const onFinish = (values: any) => {
-  console.log(values);
-};
-
 const RegistrationForm: React.FC = () => {
   const { serial_no } = useParams();
+  const AuthApi = useAxiosAuth();
+  const router = useRouter();
   const stoveNo = String(serial_no).replace("-", " ");
   const loading = false;
+  const [geo, setGeo] = useState<string | null>(null);
+
   const uploadButton = (
     <button
       style={{
@@ -40,6 +39,58 @@ const RegistrationForm: React.FC = () => {
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>
   );
+
+  const AddStoveData = async (data: any) => {
+    return await AuthApi.post(`/api/clients/create`, data);
+  };
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: AddStoveData,
+    onSuccess: () => {
+      message.success("User added successfully");
+      router.push("/user");
+    },
+    onError: (err: any) => {
+      message.error(err?.response?.data?.message || "Some thing went wrong");
+    },
+  });
+
+  function error() {
+    message.error("Unable to retrieve your location");
+  }
+
+  function success(position: any) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    setGeo(`${latitude}, ${longitude}`);
+  }
+
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.permissions
+        .query({ name: "geolocation" })
+        .then((permissionStatus) => {
+          if (permissionStatus.state === "denied") {
+            alert("Please allow location access.");
+
+            window.location.href = "app-settings:location";
+          } else {
+            navigator.geolocation.getCurrentPosition(success, error);
+          }
+        });
+    } else {
+      alert("Geolocation is not supported in your browser.");
+    }
+  }
+
+  const onFinish = (values: any) => {
+    mutate({ ...values, geo });
+  };
+
+  useEffect(() => {
+    getLocation();
+  }, []);
+
   return (
     <div className="w-full mt-5">
       <Form
@@ -74,6 +125,14 @@ const RegistrationForm: React.FC = () => {
           rules={[{ required: true }]}
         >
           <Input name="phone" />
+        </Form.Item>
+
+        <Form.Item
+          name={"air_quality"}
+          label="Air quality"
+          rules={[{ required: true }]}
+        >
+          <Input name="air_quality" />
         </Form.Item>
         <Form.Item name={"photo_1"} label="Photo 1">
           <Upload>{uploadButton}</Upload>
