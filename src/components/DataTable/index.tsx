@@ -1,26 +1,34 @@
 "use client";
 import useAxiosAuth from "@/libs/hooks/useAxiosHook";
 import { useQuery } from "@tanstack/react-query";
-import { Pagination, Table } from "antd";
+import { Button, Image, Modal, Pagination, Table } from "antd";
 import { useSession } from "next-auth/react";
 import { EyeFilled } from "@ant-design/icons";
 import React, { useState } from "react";
 import { PageActions } from "../PageAction";
+import { useRouter } from "next/navigation";
 
-const DataTable = () => {
+const DataTable: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
   const AuthAPI = useAxiosAuth();
   const session = useSession();
-
+  const Router = useRouter();
   const [page, setPage] = useState(1);
-
+  const [openModal, setOpenModal] = useState(false);
+  const [image, setImage] = useState<string | null>(null);
   const handlePageChange = (page: number) => {
     setPage(page);
   };
+
+  const hideModal = () => {
+    setOpenModal(false);
+    setImage(null);
+  };
+
   const getData = async ({ page }: any) => {
     return await AuthAPI.get(`/api/clients?page=${page}`);
   };
 
-  const { data, refetch, isLoading, isFetching } = useQuery({
+  const { data, isLoading, isFetching } = useQuery({
     queryKey: ["initial-users", page],
     queryFn: () => getData({ page }),
     enabled: !!session,
@@ -49,68 +57,125 @@ const DataTable = () => {
       key: "phone",
     },
     {
+      title: "GPS",
+      dataIndex: "gps",
+      key: "gps",
+    },
+    {
       title: "Air quality",
       dataIndex: "air_quality",
       key: "air_quality",
     },
     {
+      title: "Data Collecter",
+      dataIndex: "user",
+      key: "user",
+      render: (data: any) => data?.email || "-",
+    },
+    {
       title: "Photo 1",
       dataIndex: "photo_1",
       key: "photo_1",
-      render: (id: any) => {
-        return <EyeFilled />;
+      render: (data: string) => {
+        return (
+          <>
+            <div className="!cursor-pointer">
+              <EyeFilled
+                onClick={() => {
+                  setOpenModal(true);
+                  setImage(data);
+                }}
+              />
+            </div>
+            {image && (
+              <Modal
+                title="Photo 1"
+                open={openModal}
+                onOk={hideModal}
+                onCancel={hideModal}
+              >
+                <Image src={image} />
+              </Modal>
+            )}
+          </>
+        );
       },
     },
-    // {
-    //   title: "Password",
-    //   dataIndex: "password",
-    //   key: "password",
-    //   render: (record: any) => {
-    //     return record;
-    //   },
-    // },
-
-    // {
-    //   title: "Actions",
-    //   dataIndex: "id",
-    //   key: "actions",
-    //   width: "150px",
-    //   render: (id: any) => {
-    //     return (
-    //       <Space size="middle">
-    //         <Link
-    //           href={{
-    //             pathname: `/user/edit/${id}`,
-    //           }}
-    //         >
-    //           <span title="Edit">
-    //             <EditOutlined />
-    //           </span>
-    //         </Link>
-    //         <Popconfirm
-    //           placement="topRight"
-    //           title={"Are you sure you want to delete user?"}
-    //           onConfirm={() => mutate(id)}
-    //         >
-    //           <span title={"Delete"} className="delete-icon">
-    //             <DeleteOutlined
-    //               style={{
-    //                 fontSize: "17px",
-    //                 color: "red",
-    //                 marginBottom: "5px",
-    //               }}
-    //             />
-    //           </span>
-    //         </Popconfirm>
-    //       </Space>
-    //     );
-    //   },
-    // },
+    {
+      title: "Photo 2",
+      dataIndex: "photo_2",
+      key: "photo_2",
+      render: (data: string) => {
+        return (
+          <>
+            <div className="!cursor-pointer">
+              <EyeFilled
+                onClick={() => {
+                  setOpenModal(true);
+                  setImage(data);
+                }}
+              />
+            </div>
+            {image && (
+              <Modal
+                title="Photo 2"
+                open={openModal}
+                onOk={hideModal}
+                onCancel={hideModal}
+              >
+                <Image src={image} />
+              </Modal>
+            )}
+          </>
+        );
+      },
+    },
+    {
+      title: "Photo 3",
+      dataIndex: "photo_3",
+      key: "photo_3",
+      render: (data: string) => {
+        return (
+          <>
+            <div className="cursor-pointer">
+              <EyeFilled
+                onClick={() => {
+                  setOpenModal(true);
+                  setImage(data);
+                }}
+              />
+            </div>
+            {image && (
+              <Modal
+                title="Photo 3"
+                open={openModal}
+                onOk={hideModal}
+                onCancel={hideModal}
+              >
+                <Image src={image} />
+              </Modal>
+            )}
+          </>
+        );
+      },
+    },
   ];
 
   return (
     <div className="px-5 md:px-10 lg:px-20 mt-5 mx-auto">
-      <PageActions className="site-page-header" title="Data Table" />
+      <PageActions
+        className="site-page-header"
+        title="Data Table"
+        extra={
+          isAdmin ? (
+            <div className="flex gap-1">
+              <Button onClick={() => Router.push("/user")}>
+                {"Go to User table"}
+              </Button>
+            </div>
+          ) : null
+        }
+      />
       <Table
         dataSource={data?.data?.clients || []}
         columns={columns}

@@ -10,7 +10,7 @@ interface iPageActions {
   title: string;
   subTitle?: string;
   footer?: React.ReactElement;
-  extra?: React.ReactElement;
+  extra?: React.ReactElement | null;
   children?: React.ReactElement;
   className?: string;
 }
@@ -33,9 +33,11 @@ const PageActions: React.FC<iPageActions> = (props) => {
             </div>
           </Space>
         </Col>
-        <Col flex="auto" style={{ textAlign: "right" }}>
-          <Space>{props.extra}</Space>
-        </Col>
+        {props.extra ? (
+          <Col flex="auto" style={{ textAlign: "right" }}>
+            <Space>{props.extra}</Space>
+          </Col>
+        ) : null}
       </Row>
       <Row>
         {React.Children.map(props.children, (child, index) => (

@@ -65,15 +65,6 @@ const UserTable = () => {
       dataIndex: "role",
       key: "role",
     },
-    // {
-    //   title: "Password",
-    //   dataIndex: "password",
-    //   key: "password",
-    //   render: (record: any) => {
-    //     return record;
-    //   },
-    // },
-
     {
       title: "Actions",
       dataIndex: "id",
@@ -118,9 +109,14 @@ const UserTable = () => {
         className="site-page-header"
         title="User Table"
         extra={
-          <Button type="primary" onClick={() => Router.push("/user/add")}>
-            Add User
-          </Button>
+          <div className="flex gap-1">
+            <Button onClick={() => Router.push("/data")}>
+              {"Go to Data table"}
+            </Button>
+            <Button type="primary" onClick={() => Router.push("/user/add")}>
+              Add User
+            </Button>
+          </div>
         }
       />
       <Table
