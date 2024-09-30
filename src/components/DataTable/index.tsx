@@ -3,7 +3,7 @@ import useAxiosAuth from "@/libs/hooks/useAxiosHook";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Image, Modal, Pagination, Table } from "antd";
 import { useSession } from "next-auth/react";
-import { EyeFilled } from "@ant-design/icons";
+import { EyeOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import { PageActions } from "../PageAction";
 import { useRouter } from "next/navigation";
@@ -65,6 +65,7 @@ const DataTable: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
       title: "Air quality",
       dataIndex: "air_quality",
       key: "air_quality",
+      render: (data: any) => `${data} ppm` || "-",
     },
     {
       title: "Data Collecter",
@@ -79,7 +80,7 @@ const DataTable: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
       render: (data: string) => {
         return (
           <div className="!cursor-pointer">
-            <EyeFilled
+            <EyeOutlined
               onClick={() => {
                 setOpenModal(true);
                 setModalData({ img: data, title: "Photo 1" });
@@ -96,7 +97,7 @@ const DataTable: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
       render: (data: string) => {
         return (
           <div className="!cursor-pointer">
-            <EyeFilled
+            <EyeOutlined
               onClick={() => {
                 setOpenModal(true);
                 setModalData({ img: data, title: "Photo 2" });
@@ -113,7 +114,7 @@ const DataTable: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
       render: (data: string) => {
         return (
           <div className="cursor-pointer">
-            <EyeFilled
+            <EyeOutlined
               onClick={() => {
                 setOpenModal(true);
                 setModalData({ img: data, title: "Photo 3" });
