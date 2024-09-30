@@ -1,12 +1,9 @@
 import { UserTable } from "@/components";
+import withAdminAuth from "@/utils/withAdminAuth";
 import React from "react";
 
 const UserListPage = () => {
-  return (
-    <div>
-      <UserTable />
-    </div>
-  );
+  return <UserTable />;
 };
 
-export default UserListPage;
+export default withAdminAuth(UserListPage);

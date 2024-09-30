@@ -1,7 +1,8 @@
 import { UserForm } from "@/components";
+import withAdminAuth from "@/utils/withAdminAuth";
 import React from "react";
-const Signup = () => {
+const RegistrationUser = () => {
   return <UserForm />;
 };
 
-export default Signup;
+export default withAdminAuth(RegistrationUser);

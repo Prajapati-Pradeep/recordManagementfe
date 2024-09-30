@@ -5,3 +5,4 @@ export { UserTable } from "./UserTable";
 export { QRScanner } from "./QrScanner";
 export { RegistrationForm } from "./RegistrationForm";
 export { PageActions } from "./PageAction";
+export { Scanner } from "./ScannerComponent";
