@@ -41,9 +41,9 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen flex-col">
+    <div className="mx-3 flex items-center justify-center h-screen flex-col">
       <Title className="text-3xl text-black mb-3">Login</Title>
-      <Card className="p-2 w-full md:w-2/3  lg:w-[30rem] ">
+      <Card className=" w-full md:w-2/3  lg:w-[30rem] ">
         <Form
           name="basic"
           initialValues={{ remember: true }}
