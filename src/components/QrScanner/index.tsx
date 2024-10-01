@@ -2,16 +2,14 @@
 import { message } from "antd";
 import { useRouter } from "next/navigation";
 import React, { useState, useCallback } from "react";
-import QrReader from "react-qr-scanner";
+import QrReader from "modern-react-qr-reader";
 
 const QRScanner = () => {
   const [delay] = useState(100);
-  const [result, setResult] = useState();
   const router = useRouter();
   const handleScan = useCallback((data: any) => {
     if (data) {
-      setResult(data?.text);
-      router.push(`/registration/${String(data?.text).replace(" ", "-")}`);
+      router.push(`/registration/${String(data).replace(" ", "-")}`);
     }
   }, []);
 
@@ -31,6 +29,11 @@ const QRScanner = () => {
         style={previewStyle}
         onError={handleError}
         onScan={handleScan}
+        facingMode="environment"
+        constraints={{
+          audio: true,
+          video: { facingMode: "environment" },
+        }}
       />
     </div>
   );

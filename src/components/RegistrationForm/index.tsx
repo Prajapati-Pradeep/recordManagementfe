@@ -1,10 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, message, Upload } from "antd";
+import { Button, Form, Input, message } from "antd";
 import { useParams, useRouter } from "next/navigation";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import { useMutation } from "@tanstack/react-query";
 import useAxiosAuth from "@/libs/hooks/useAxiosHook";
+import { ImageUpload } from "../ImageUpload";
 
 const validateMessages = {
   required: "${label} is required!",
@@ -21,24 +22,11 @@ const RegistrationForm: React.FC = () => {
   const AuthApi = useAxiosAuth();
   const router = useRouter();
   const stoveNo = String(serial_no).replace("-", " ");
-  const loading = false;
   const [geo, setGeo] = useState<string | null>(null);
-
-  const uploadButton = (
-    <button
-      style={{
-        border: "1px dotted grey",
-        borderRadius: "5px",
-        padding: "1rem",
-        background: "none",
-        marginLeft: "4rem",
-      }}
-      type="button"
-    >
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </button>
-  );
+  const [img1, setImg1] = useState<string | null>(null);
+  const [img2, setImg2] = useState<string | null>(null);
+  const [img3, setImg3] = useState<string | null>(null);
+  const [form] = Form.useForm();
 
   const AddStoveData = async (data: any) => {
     return await AuthApi.post(`/api/clients/create`, data);
@@ -87,12 +75,6 @@ const RegistrationForm: React.FC = () => {
     mutate({
       ...values,
       gps: geo,
-      photo_1:
-        "https://images.stockcake.com/public/e/5/7/e57e0e29-b97a-463e-9835-5ff0b52ce067_large/dog-running-happily-stockcake.jpg",
-      photo_2:
-        "https://images.stockcake.com/public/e/5/7/e57e0e29-b97a-463e-9835-5ff0b52ce067_large/dog-running-happily-stockcake.jpg",
-      photo_3:
-        "https://images.stockcake.com/public/e/5/7/e57e0e29-b97a-463e-9835-5ff0b52ce067_large/dog-running-happily-stockcake.jpg",
     });
   };
 
@@ -100,10 +82,28 @@ const RegistrationForm: React.FC = () => {
     getLocation();
   }, []);
 
+  useEffect(() => {
+    if (img1) {
+      form.setFieldValue("photo_1", img1);
+    }
+  }, [img1]);
+
+  useEffect(() => {
+    if (img2) {
+      form.setFieldValue("photo_2", img2);
+    }
+  }, [img2]);
+  useEffect(() => {
+    if (img3) {
+      form.setFieldValue("photo_3", img3);
+    }
+  }, [img3]);
+
   return (
     <div className="w-full mt-5">
       <Form
         name="nest-messages"
+        form={form}
         onFinish={onFinish}
         layout="vertical"
         validateMessages={validateMessages}
@@ -143,14 +143,26 @@ const RegistrationForm: React.FC = () => {
         >
           <Input name="air_quality" addonAfter="Ppm" />
         </Form.Item>
-        <Form.Item name={"photo_1"} label="Photo 1">
-          <Upload>{uploadButton}</Upload>
+        <Form.Item
+          name={"photo_1"}
+          label="Photo 1"
+          rules={[{ required: true }]}
+        >
+          <ImageUpload img={img1} setImg={setImg1} />
         </Form.Item>
-        <Form.Item name={"photo_2"} label="Photo 2">
-          <Upload>{uploadButton}</Upload>
+        <Form.Item
+          name={"photo_2"}
+          label="Photo 2"
+          rules={[{ required: true }]}
+        >
+          <ImageUpload img={img2} setImg={setImg2} />
         </Form.Item>
-        <Form.Item name={"photo_3"} label="Photo 3">
-          <Upload>{uploadButton}</Upload>
+        <Form.Item
+          name={"photo_3"}
+          label="Photo 3"
+          rules={[{ required: true }]}
+        >
+          <ImageUpload img={img3} setImg={setImg3} />
         </Form.Item>
 
         <Form.Item className="flex items-center justify-center">

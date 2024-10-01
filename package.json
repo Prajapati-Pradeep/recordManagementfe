@@ -14,11 +14,13 @@
     "@tanstack/react-query-next-experimental": "^5.56.2",
     "antd": "^5.20.1",
     "axios": "^1.7.7",
+    "modern-react-qr-reader": "^1.0.12",
     "next": "14.2.5",
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
-    "react-qr-scanner": "^1.0.0-alpha.11"
+    "react-qr-scanner": "^1.0.0-alpha.11",
+    "react-webcam": "^7.2.0"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.56.2",
