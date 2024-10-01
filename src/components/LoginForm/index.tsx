@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import type { FormProps } from "antd";
 import { Button, Card, Form, Input, message, Spin, Typography } from "antd";
 import { signIn } from "next-auth/react";
