@@ -176,8 +176,8 @@ const SignupForm: React.FC = () => {
             >
               <Select>
                 <Select.Option value={Role.ANALYST}>{"Analyst"}</Select.Option>
-                <Select.Option value={Role.SUPERVISOR}>
-                  {"Supervisor"}
+                <Select.Option value={Role.ONSITEOFFICER}>
+                  {"Onsite Officer"}
                 </Select.Option>
               </Select>
             </Form.Item>

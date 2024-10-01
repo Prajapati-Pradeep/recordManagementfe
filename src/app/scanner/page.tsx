@@ -1,8 +1,8 @@
 import { Scanner } from "@/components";
-import withAnalystAuth from "@/utils/withAnalystAuth";
+import withOnsiteOfficerAuth from "@/utils/withOnsiteOfficerAuth";
 
 const ScannerPage = () => {
   return <Scanner />;
 };
 
-export default withAnalystAuth(ScannerPage);
+export default withOnsiteOfficerAuth(ScannerPage);

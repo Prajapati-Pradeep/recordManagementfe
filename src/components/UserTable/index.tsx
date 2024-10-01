@@ -15,6 +15,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { PageActions } from "../PageAction";
 import { useRouter } from "next/navigation";
+import { Role } from "@/constant";
 
 const UserTable = () => {
   const AuthAPI = useAxiosAuth();
@@ -26,6 +27,11 @@ const UserTable = () => {
     setPage(page);
   };
 
+  const RoleLabel = {
+    [Role.ADMIN]: "Admin",
+    [Role.ANALYST]: "Analyst",
+    [Role.ONSITEOFFICER]: "Onsite Officer",
+  };
   const getUsers = async ({ page }: any) => {
     return await AuthAPI.get(`/api/user?page=${page}`);
   };
@@ -63,6 +69,10 @@ const UserTable = () => {
       title: "Role",
       dataIndex: "role",
       key: "role",
+      render: (role: string) => {
+        const label = RoleLabel?.[role];
+        return label || role;
+      },
     },
     {
       title: "Actions",

@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/app/(auth)/api/auth/[...nextauth]/route";
 import { Role } from "@/constant";
 
-// Higher-Order Component (HOC) for Analyst protection
+// Higher-Order Component (HOC) for Supervisor protection
 const withAnalystAuth = (WrappedComponent: any) => {
   return async (props: any) => {
     const session = await getServerSession(authOptions);
@@ -13,7 +13,7 @@ const withAnalystAuth = (WrappedComponent: any) => {
       return redirect("/login");
     }
 
-    // Redirect to home if the user is not an Analyst
+    // Redirect to home if the user is not an Supervisor
     if (session?.user?.role !== Role.ANALYST) {
       return redirect("/");
     }

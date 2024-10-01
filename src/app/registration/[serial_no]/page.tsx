@@ -1,9 +1,9 @@
 import React from "react";
 import { RegistrationForm } from "@/components";
-import withAnalystAuth from "@/utils/withAnalystAuth";
+import withOnsiteOfficerAuth from "@/utils/withOnsiteOfficerAuth";
 
 const ClientRegistrationPage: React.FC = () => {
   return <RegistrationForm />;
 };
 
-export default withAnalystAuth(ClientRegistrationPage);
+export default withOnsiteOfficerAuth(ClientRegistrationPage);

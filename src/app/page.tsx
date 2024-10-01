@@ -13,10 +13,10 @@ export default async function Home() {
     redirect("/user");
   }
   if (session?.user?.role === Role.ANALYST) {
-    redirect("/scanner");
-  }
-  if (session?.user?.role === Role.SUPERVISOR) {
     redirect("/data");
+  }
+  if (session?.user?.role === Role.ONSITEOFFICER) {
+    redirect("/scanner");
   }
 
   return (
