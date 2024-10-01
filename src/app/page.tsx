@@ -1,8 +1,8 @@
 import { Spin } from "antd";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "./(auth)/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { Role } from "@/constant";
+import { authOptions } from "@/libs/auth";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);

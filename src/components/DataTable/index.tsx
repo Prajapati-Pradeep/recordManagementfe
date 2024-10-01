@@ -135,7 +135,7 @@ const DataTable: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
           onOk={hideModal}
           onCancel={hideModal}
         >
-          <Image src={modalData?.img} />
+          <Image src={modalData?.img} alt={modalData?.title} />
         </Modal>
       )}
       <PageActions

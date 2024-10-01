@@ -1,11 +1,11 @@
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/app/(auth)/api/auth/[...nextauth]/route";
 import { Role } from "@/constant";
+import { authOptions } from "@/libs/auth";
 
-// Higher-Order Component (HOC) for admin protection
+// Higher-Order Component (HOC) for admin or analyst protection
 const withAdminOrAnalystAuth = (WrappedComponent: any) => {
-  return async (props: any) => {
+  const AdminOrAnalystProtectedComponent = async (props: any) => {
     const session = await getServerSession(authOptions);
 
     // Redirect to login if no session exists
@@ -13,7 +13,7 @@ const withAdminOrAnalystAuth = (WrappedComponent: any) => {
       return redirect("/login");
     }
 
-    // Redirect to home if the user is not an admin
+    // Redirect to home if the user is neither an admin nor an analyst
     if (
       session?.user?.role !== Role.ADMIN &&
       session?.user?.role !== Role.ANALYST
@@ -24,6 +24,13 @@ const withAdminOrAnalystAuth = (WrappedComponent: any) => {
     // Pass the session to the wrapped component
     return <WrappedComponent session={session} {...props} />;
   };
+
+  // Set a displayName for better debugging
+  AdminOrAnalystProtectedComponent.displayName = `withAdminOrAnalystAuth(${
+    WrappedComponent.displayName || WrappedComponent.name || "Component"
+  })`;
+
+  return AdminOrAnalystProtectedComponent;
 };
 
 export default withAdminOrAnalystAuth;

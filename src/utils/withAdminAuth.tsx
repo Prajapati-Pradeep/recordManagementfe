@@ -1,11 +1,11 @@
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/app/(auth)/api/auth/[...nextauth]/route";
 import { Role } from "@/constant";
+import { authOptions } from "@/libs/auth";
 
 // Higher-Order Component (HOC) for admin protection
 const withAdminAuth = (WrappedComponent: any) => {
-  return async (props: any) => {
+  const AdminProtectedComponent = async (props: any) => {
     const session = await getServerSession(authOptions);
 
     // Redirect to login if no session exists
@@ -21,6 +21,13 @@ const withAdminAuth = (WrappedComponent: any) => {
     // Pass the session to the wrapped component
     return <WrappedComponent session={session} {...props} />;
   };
+
+  // Assign a displayName for debugging purposes
+  AdminProtectedComponent.displayName = `withAdminAuth(${
+    WrappedComponent.displayName || WrappedComponent.name || "Component"
+  })`;
+
+  return AdminProtectedComponent;
 };
 
 export default withAdminAuth;

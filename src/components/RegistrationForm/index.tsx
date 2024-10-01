@@ -101,10 +101,10 @@ const RegistrationForm: React.FC = () => {
           title={"Register Data"}
           extra={
             <Button
-              icon={<DoubleLeftOutlined />}
               onClick={() => router.push("/scanner")}
+              icon={<DoubleLeftOutlined />}
             >
-              Go Back
+              Back
             </Button>
           }
         />

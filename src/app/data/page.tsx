@@ -2,8 +2,8 @@ import { DataTable } from "@/components";
 import { Role } from "@/constant";
 import { getServerSession } from "next-auth/next";
 import React from "react";
-import { authOptions } from "../(auth)/api/auth/[...nextauth]/route";
 import withAdminOrAnalystAuth from "@/utils/withAdminOrAnalystAuth";
+import { authOptions } from "@/libs/auth";
 
 const UserListPage = async () => {
   const session = await getServerSession(authOptions);
