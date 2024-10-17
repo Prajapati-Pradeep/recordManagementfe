@@ -168,8 +168,8 @@ const RegistrationForm: React.FC = () => {
           rules={[{ required: true }]}
         >
           <Select>
-            <Select.Option value="Yes">Yes</Select.Option>
-            <Select.Option value="No">No</Select.Option>
+            <Select.Option value={1}>Yes</Select.Option>
+            <Select.Option value={0}>No</Select.Option>
           </Select>
         </Form.Item>
 
@@ -197,8 +197,8 @@ const RegistrationForm: React.FC = () => {
           rules={[{ required: true }]}
         >
           <Select>
-            <Select.Option value="Yes">Yes</Select.Option>
-            <Select.Option value="No">No</Select.Option>
+            <Select.Option value={1}>Yes</Select.Option>
+            <Select.Option value={0}>No</Select.Option>
           </Select>
         </Form.Item>
 
@@ -219,8 +219,8 @@ const RegistrationForm: React.FC = () => {
           rules={[{ required: true }]}
         >
           <Select>
-            <Select.Option value="Yes">Yes</Select.Option>
-            <Select.Option value="No">No</Select.Option>
+            <Select.Option value={1}>Yes</Select.Option>
+            <Select.Option value={0}>No</Select.Option>
           </Select>
         </Form.Item>
 
@@ -255,8 +255,8 @@ const RegistrationForm: React.FC = () => {
           rules={[{ required: true }]}
         >
           <Select>
-            <Select.Option value="Yes">Yes</Select.Option>
-            <Select.Option value="No">No</Select.Option>
+            <Select.Option value={1}>Yes</Select.Option>
+            <Select.Option value={0}>No</Select.Option>
           </Select>
         </Form.Item>
 
@@ -283,8 +283,8 @@ const RegistrationForm: React.FC = () => {
           rules={[{ required: true }]}
         >
           <Radio.Group>
-            <Radio value="Yes">Yes</Radio>
-            <Radio value="No">No</Radio>
+            <Radio value={1}>Yes</Radio>
+            <Radio value={0}>No</Radio>
           </Radio.Group>
         </Form.Item>
         <Typography.Title level={5}>
@@ -296,8 +296,8 @@ const RegistrationForm: React.FC = () => {
           rules={[{ required: true }]}
         >
           <Radio.Group>
-            <Radio value="satisfactory">Satisfactory</Radio>
-            <Radio value="no">Not Satisfactory</Radio>
+            <Radio value={1}>Satisfactory</Radio>
+            <Radio value={0}>Not Satisfactory</Radio>
           </Radio.Group>
         </Form.Item>
 
@@ -327,8 +327,8 @@ const RegistrationForm: React.FC = () => {
           rules={[{ required: true }]}
         >
           <Select>
-            <Select.Option value="Yes">Yes</Select.Option>
-            <Select.Option value="No">No</Select.Option>
+            <Select.Option value={1}>Yes</Select.Option>
+            <Select.Option value={0}>No</Select.Option>
           </Select>
         </Form.Item>
         <Form.Item
@@ -348,8 +348,8 @@ const RegistrationForm: React.FC = () => {
           rules={[{ required: true }]}
         >
           <Select>
-            <Select.Option value="Yes">Yes</Select.Option>
-            <Select.Option value="No">No</Select.Option>
+            <Select.Option value={1}>Yes</Select.Option>
+            <Select.Option value={0}>No</Select.Option>
           </Select>
         </Form.Item>
         <Form.Item
