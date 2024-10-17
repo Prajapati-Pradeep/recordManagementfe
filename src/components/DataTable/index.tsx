@@ -1,12 +1,24 @@
 "use client";
 import useAxiosAuth from "@/libs/hooks/useAxiosHook";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Image, Modal, Pagination, Table } from "antd";
+import {
+  Button,
+  Descriptions,
+  Divider,
+  Flex,
+  Image,
+  Modal,
+  Pagination,
+  Radio,
+  Table,
+  Typography,
+} from "antd";
 import { useSession } from "next-auth/react";
 import { EyeOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import { PageActions } from "../PageAction";
 import { useRouter } from "next/navigation";
+import { DataDetailContent } from "../DataDetailContent";
 
 const DataTable: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
   const AuthAPI = useAxiosAuth();
@@ -74,56 +86,56 @@ const DataTable: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
       render: (data: any) => data?.email || "-",
     },
     {
-      title: "Photo 1",
-      dataIndex: "photo_1",
-      key: "photo_1",
-      render: (data: string) => {
+      title: "Detail",
+      dataIndex: "detail",
+      key: "detail",
+      render: (_: string, data: any) => {
         return (
           <div className="!cursor-pointer">
             <EyeOutlined
               onClick={() => {
                 setOpenModal(true);
-                setModalData({ img: data, title: "Photo 1" });
+                setModalData(data);
               }}
             />
           </div>
         );
       },
     },
-    {
-      title: "Photo 2",
-      dataIndex: "photo_2",
-      key: "photo_2",
-      render: (data: string) => {
-        return (
-          <div className="!cursor-pointer">
-            <EyeOutlined
-              onClick={() => {
-                setOpenModal(true);
-                setModalData({ img: data, title: "Photo 2" });
-              }}
-            />
-          </div>
-        );
-      },
-    },
-    {
-      title: "Photo 3",
-      dataIndex: "photo_3",
-      key: "photo_3",
-      render: (data: string) => {
-        return (
-          <div className="cursor-pointer">
-            <EyeOutlined
-              onClick={() => {
-                setOpenModal(true);
-                setModalData({ img: data, title: "Photo 3" });
-              }}
-            />
-          </div>
-        );
-      },
-    },
+    // {
+    //   title: "Photo 2",
+    //   dataIndex: "photo_2",
+    //   key: "photo_2",
+    //   render: (data: string) => {
+    //     return (
+    //       <div className="!cursor-pointer">
+    //         <EyeOutlined
+    //           onClick={() => {
+    //             setOpenModal(true);
+    //             setModalData({ img: data, title: "Photo 2" });
+    //           }}
+    //         />
+    //       </div>
+    //     );
+    //   },
+    // },
+    // {
+    //   title: "Photo 3",
+    //   dataIndex: "photo_3",
+    //   key: "photo_3",
+    //   render: (data: string) => {
+    //     return (
+    //       <div className="cursor-pointer">
+    //         <EyeOutlined
+    //           onClick={() => {
+    //             setOpenModal(true);
+    //             setModalData({ img: data, title: "Photo 3" });
+    //           }}
+    //         />
+    //       </div>
+    //     );
+    //   },
+    // },
   ];
 
   return (
@@ -134,8 +146,10 @@ const DataTable: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
           open={openModal}
           onOk={hideModal}
           onCancel={hideModal}
+          footer={null}
+          width={"80%"}
         >
-          <Image src={modalData?.img} alt={modalData?.title} />
+          <DataDetailContent modalData={modalData} />
         </Modal>
       )}
       <PageActions

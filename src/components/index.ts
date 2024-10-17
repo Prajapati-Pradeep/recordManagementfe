@@ -7,3 +7,4 @@ export { RegistrationForm } from "./RegistrationForm";
 export { PageActions } from "./PageAction";
 export { Scanner } from "./ScannerComponent";
 export { DataTable } from "./DataTable";
+export { DataDetailContent } from "./DataDetailContent";
