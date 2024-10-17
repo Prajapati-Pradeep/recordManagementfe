@@ -34,6 +34,8 @@ const RegistrationForm: React.FC = () => {
   const router = useRouter();
   const stoveNo = String(serial_no).replace("-", " ");
 
+  const numberRegex = new RegExp(/^(0|[1-9]\d*)(\.\d+)?$/);
+
   const [geo, setGeo] = useState<string | null>(null);
   const [img1, setImg1] = useState<string | null>(null);
   const [img2, setImg2] = useState<string | null>(null);
@@ -138,13 +140,6 @@ const RegistrationForm: React.FC = () => {
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          name="air_quality"
-          label="Air quality"
-          rules={[{ required: true }]}
-        >
-          <Input addonAfter="Ppm" />
-        </Form.Item>
         <Form.Item name="photo_1" label="Photo 1" rules={[{ required: true }]}>
           <ImageUpload img={img1} setImg={setImg1} />
         </Form.Item>
@@ -186,7 +181,10 @@ const RegistrationForm: React.FC = () => {
         <Form.Item
           name="timeSaved"
           label="Time saved (daily average) from reduced fuelwood collection"
-          rules={[{ required: true }]}
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
         >
           <Input addonAfter={"hrs"} />
         </Form.Item>
@@ -227,7 +225,10 @@ const RegistrationForm: React.FC = () => {
         <Form.Item
           name="frequencyOfRespiratoryIssue"
           label="Frequency of respiratory issues before and after ICS"
-          rules={[{ required: true }]}
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
         >
           <Input addonAfter={"yrs"} />
         </Form.Item>
@@ -244,7 +245,10 @@ const RegistrationForm: React.FC = () => {
         <Form.Item
           name="hrsSavedForEducation"
           label="Average hours saved for education (weekly)"
-          rules={[{ required: true }]}
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
         >
           <Input addonAfter={"hrs per week"} />
         </Form.Item>
@@ -266,14 +270,20 @@ const RegistrationForm: React.FC = () => {
         <Form.Item
           name="noOfHourSavedPD"
           label="Number of hours saved per day"
-          rules={[{ required: true }]}
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
         >
           <Input addonAfter={"hrs"} />
         </Form.Item>
         <Form.Item
           name="timeForProductiveActivities"
           label="Time used for productive activities"
-          rules={[{ required: true }]}
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
         >
           <Input addonAfter={"hrs"} />
         </Form.Item>
@@ -317,7 +327,10 @@ const RegistrationForm: React.FC = () => {
         <Form.Item
           name="noOfManHours"
           label="Number of man-hours employed in the project."
-          rules={[{ required: true }]}
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
         >
           <Input addonAfter={"man-hours"} />
         </Form.Item>
@@ -362,7 +375,10 @@ const RegistrationForm: React.FC = () => {
         <Form.Item
           name="air_quality"
           label="Air quality"
-          rules={[{ required: true }]}
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
         >
           <Input addonAfter="Ppm" />
         </Form.Item>
@@ -373,7 +389,10 @@ const RegistrationForm: React.FC = () => {
         <Form.Item
           name="reductionOnFirewood"
           label="Approximate reduction in firewood consumption"
-          rules={[{ required: true }]}
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
         >
           <Input addonAfter={"kg per month"} />
         </Form.Item>
@@ -384,7 +403,10 @@ const RegistrationForm: React.FC = () => {
         <Form.Item
           name="biomassSaved"
           label="Estimate of non-renewable biomass saved per household"
-          rules={[{ required: true }]}
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
         >
           <Input addonAfter={"kg"} />
         </Form.Item>
