@@ -162,10 +162,10 @@ const RegistrationForm: React.FC = () => {
           label="Has the use of ICS decreased poverty?"
           rules={[{ required: true }]}
         >
-          <Select>
-            <Select.Option value={1}>Yes</Select.Option>
-            <Select.Option value={0}>No</Select.Option>
-          </Select>
+          <Radio.Group>
+            <Radio value={1}>Yes</Radio>
+            <Radio value={0}>No</Radio>
+          </Radio.Group>
         </Form.Item>
 
         <Form.Item
@@ -194,10 +194,10 @@ const RegistrationForm: React.FC = () => {
           label="Use of saved time for agricultural activities"
           rules={[{ required: true }]}
         >
-          <Select>
-            <Select.Option value={1}>Yes</Select.Option>
-            <Select.Option value={0}>No</Select.Option>
-          </Select>
+          <Radio.Group>
+            <Radio value={1}>Yes</Radio>
+            <Radio value={0}>No</Radio>
+          </Radio.Group>
         </Form.Item>
 
         <Form.Item
@@ -216,10 +216,10 @@ const RegistrationForm: React.FC = () => {
           label="Has the household reported reduced smoke after using ICS?"
           rules={[{ required: true }]}
         >
-          <Select>
-            <Select.Option value={1}>Yes</Select.Option>
-            <Select.Option value={0}>No</Select.Option>
-          </Select>
+          <Radio.Group>
+            <Radio value={1}>Yes</Radio>
+            <Radio value={0}>No</Radio>
+          </Radio.Group>
         </Form.Item>
 
         <Form.Item
@@ -258,10 +258,10 @@ const RegistrationForm: React.FC = () => {
           label="Are children able to spend more time studying after using ICS?"
           rules={[{ required: true }]}
         >
-          <Select>
-            <Select.Option value={1}>Yes</Select.Option>
-            <Select.Option value={0}>No</Select.Option>
-          </Select>
+          <Radio.Group>
+            <Radio value={1}>Yes</Radio>
+            <Radio value={0}>No</Radio>
+          </Radio.Group>
         </Form.Item>
 
         <Typography.Title level={5}>
@@ -339,10 +339,10 @@ const RegistrationForm: React.FC = () => {
           label="Job creation for local residents"
           rules={[{ required: true }]}
         >
-          <Select>
-            <Select.Option value={1}>Yes</Select.Option>
-            <Select.Option value={0}>No</Select.Option>
-          </Select>
+          <Radio.Group>
+            <Radio value={1}>Yes</Radio>
+            <Radio value={0}>No</Radio>
+          </Radio.Group>
         </Form.Item>
         <Form.Item
           name="projectInitiate"
@@ -360,10 +360,10 @@ const RegistrationForm: React.FC = () => {
           label="Has there been a noticeable improvement in air quality? "
           rules={[{ required: true }]}
         >
-          <Select>
-            <Select.Option value={1}>Yes</Select.Option>
-            <Select.Option value={0}>No</Select.Option>
-          </Select>
+          <Radio.Group>
+            <Radio value={1}>Yes</Radio>
+            <Radio value={0}>No</Radio>
+          </Radio.Group>
         </Form.Item>
         <Form.Item
           name="perceptionOnAirQuality"
