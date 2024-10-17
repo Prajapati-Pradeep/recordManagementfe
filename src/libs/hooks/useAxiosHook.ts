@@ -1,10 +1,11 @@
 "use client";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { AUTHAPI } from "../axios";
 
 const useAxiosAuth = () => {
   const { data: session }: any = useSession();
+
   useEffect(() => {
     const requestIntercept = AUTHAPI.interceptors.request.use(
       (config) => {
@@ -22,6 +23,13 @@ const useAxiosAuth = () => {
       (response) => response,
       async (error) => {
         const prevRequest = error?.config;
+        if (
+          error?.response?.status === 401 &&
+          error?.response?.statusText === "Unauthorized"
+        ) {
+          signOut({ callbackUrl: "/" });
+          return Promise.reject(error);
+        }
         if (error?.response?.status === 401 && !prevRequest?.sent) {
           prevRequest.sent = true;
           prevRequest.headers["Authorization"] = `Bearer ${

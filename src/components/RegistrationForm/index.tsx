@@ -1,6 +1,15 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
-import { Button, Form, Input, message } from "antd";
+import {
+  Button,
+  Divider,
+  Form,
+  Input,
+  message,
+  Radio,
+  Select,
+  Typography,
+} from "antd";
 import { useParams, useRouter } from "next/navigation";
 import { DoubleLeftOutlined } from "@ant-design/icons";
 import { useMutation } from "@tanstack/react-query";
@@ -24,6 +33,8 @@ const RegistrationForm: React.FC = () => {
   const AuthApi = useAxiosAuth();
   const router = useRouter();
   const stoveNo = String(serial_no).replace("-", " ");
+
+  const numberRegex = new RegExp(/^(0|[1-9]\d*)(\.\d+)?$/);
 
   const [geo, setGeo] = useState<string | null>(null);
   const [img1, setImg1] = useState<string | null>(null);
@@ -129,13 +140,6 @@ const RegistrationForm: React.FC = () => {
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          name="air_quality"
-          label="Air quality"
-          rules={[{ required: true }]}
-        >
-          <Input addonAfter="Ppm" />
-        </Form.Item>
         <Form.Item name="photo_1" label="Photo 1" rules={[{ required: true }]}>
           <ImageUpload img={img1} setImg={setImg1} />
         </Form.Item>
@@ -145,6 +149,275 @@ const RegistrationForm: React.FC = () => {
         <Form.Item name="photo_3" label="Photo 3" rules={[{ required: true }]}>
           <ImageUpload img={img3} setImg={setImg3} />
         </Form.Item>
+        <Divider
+          variant="dashed"
+          style={{ borderColor: "#7cb305" }}
+          dashed
+        ></Divider>
+        <Typography.Title level={3}>{"SDG-Specific Data"}</Typography.Title>
+
+        <Typography.Title level={5}>{"SDG 1: No Poverty"}</Typography.Title>
+        <Form.Item
+          name="isICSDec"
+          label="Has the use of ICS decreased poverty?"
+          rules={[{ required: true }]}
+        >
+          <Radio.Group>
+            <Radio value={1}>Yes</Radio>
+            <Radio value={0}>No</Radio>
+          </Radio.Group>
+        </Form.Item>
+
+        <Form.Item
+          name="incomeIncrement"
+          label="By how much has your monthly income increased in a month:"
+          rules={[{ required: true }]}
+        >
+          <Input />
+        </Form.Item>
+        <Typography.Title level={5}>
+          {"SDG 2: Zero Hunger: Indicator"}
+        </Typography.Title>
+        <Form.Item
+          name="timeSaved"
+          label="Time saved (daily average) from reduced fuelwood collection"
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
+        >
+          <Input addonAfter={"hrs"} />
+        </Form.Item>
+
+        <Form.Item
+          name="agriculturalActivity"
+          label="Use of saved time for agricultural activities"
+          rules={[{ required: true }]}
+        >
+          <Radio.Group>
+            <Radio value={1}>Yes</Radio>
+            <Radio value={0}>No</Radio>
+          </Radio.Group>
+        </Form.Item>
+
+        <Form.Item
+          name="qualitativeInput"
+          label="Qualitative input: Description of agricultural activities"
+          rules={[{ required: true }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Typography.Title level={5}>
+          {"SDG 3: Good Health and Well-being: Indicator"}
+        </Typography.Title>
+        <Form.Item
+          name="hasReducedSmoke"
+          label="Has the household reported reduced smoke after using ICS?"
+          rules={[{ required: true }]}
+        >
+          <Radio.Group>
+            <Radio value={1}>Yes</Radio>
+            <Radio value={0}>No</Radio>
+          </Radio.Group>
+        </Form.Item>
+
+        <Form.Item
+          name="frequencyOfRespiratoryIssue"
+          label="Frequency of respiratory issues before and after ICS"
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
+        >
+          <Input addonAfter={"yrs"} />
+        </Form.Item>
+        <Typography.Title level={5}>
+          {"SDG 4: Quality Education: Indicator"}
+        </Typography.Title>
+        <Form.Item
+          name="houseHoldChildren"
+          label="Number of children in the household"
+          rules={[{ required: true }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="hrsSavedForEducation"
+          label="Average hours saved for education (weekly)"
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
+        >
+          <Input addonAfter={"hrs per week"} />
+        </Form.Item>
+
+        <Form.Item
+          name="spendMoreTimeStudying"
+          label="Are children able to spend more time studying after using ICS?"
+          rules={[{ required: true }]}
+        >
+          <Radio.Group>
+            <Radio value={1}>Yes</Radio>
+            <Radio value={0}>No</Radio>
+          </Radio.Group>
+        </Form.Item>
+
+        <Typography.Title level={5}>
+          {"SDG 5: Gender Equality: Indicator"}
+        </Typography.Title>
+        <Form.Item
+          name="noOfHourSavedPD"
+          label="Number of hours saved per day"
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
+        >
+          <Input addonAfter={"hrs"} />
+        </Form.Item>
+        <Form.Item
+          name="timeForProductiveActivities"
+          label="Time used for productive activities"
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
+        >
+          <Input addonAfter={"hrs"} />
+        </Form.Item>
+        <Form.Item
+          name="isImpactingWomen"
+          label="Is this time-saving impacting women and girls positively?"
+          rules={[{ required: true }]}
+        >
+          <Radio.Group>
+            <Radio value={1}>Yes</Radio>
+            <Radio value={0}>No</Radio>
+          </Radio.Group>
+        </Form.Item>
+        <Typography.Title level={5}>
+          {"SDG 7: Affordable and Clean Energy: Indicator"}
+        </Typography.Title>
+        <Form.Item
+          name="isFeedbackSatisfied"
+          label="Feedback on the ICS technology"
+          rules={[{ required: true }]}
+        >
+          <Radio.Group>
+            <Radio value={1}>Satisfactory</Radio>
+            <Radio value={0}>Not Satisfactory</Radio>
+          </Radio.Group>
+        </Form.Item>
+
+        <Typography.Title level={5}>
+          {"SDG 8: Decent Work and Economic Growth: Indicator"}
+        </Typography.Title>
+        <Form.Item
+          name="employmentStatus"
+          label="Employment status of household members"
+          rules={[{ required: true }]}
+        >
+          <Radio.Group>
+            <Radio value="agriculture">Agriculture</Radio>
+            <Radio value="non-agriculture">Non-agriculture</Radio>
+          </Radio.Group>
+        </Form.Item>
+        <Form.Item
+          name="noOfManHours"
+          label="Number of man-hours employed in the project."
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
+        >
+          <Input addonAfter={"man-hours"} />
+        </Form.Item>
+        <Form.Item
+          name="isJobCreation"
+          label="Job creation for local residents"
+          rules={[{ required: true }]}
+        >
+          <Radio.Group>
+            <Radio value={1}>Yes</Radio>
+            <Radio value={0}>No</Radio>
+          </Radio.Group>
+        </Form.Item>
+        <Form.Item
+          name="projectInitiate"
+          label="New type of work/project initiate"
+          rules={[{ required: true }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Typography.Title level={5}>
+          {"SDG 11: Sustainable Cities and Communities: Indicator"}
+        </Typography.Title>
+        <Form.Item
+          name="improvementInAir"
+          label="Has there been a noticeable improvement in air quality? "
+          rules={[{ required: true }]}
+        >
+          <Radio.Group>
+            <Radio value={1}>Yes</Radio>
+            <Radio value={0}>No</Radio>
+          </Radio.Group>
+        </Form.Item>
+        <Form.Item
+          name="perceptionOnAirQuality"
+          label="Perception of air quality before and after ICS installation."
+          rules={[{ required: true }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="air_quality"
+          label="Air quality"
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
+        >
+          <Input addonAfter="Ppm" />
+        </Form.Item>
+
+        <Typography.Title level={5}>
+          {"SDG 13: Climate Action: Indicator"}
+        </Typography.Title>
+        <Form.Item
+          name="reductionOnFirewood"
+          label="Approximate reduction in firewood consumption"
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
+        >
+          <Input addonAfter={"kg per month"} />
+        </Form.Item>
+
+        <Typography.Title level={5}>
+          {"SDG 15: Life on Land: Indicator"}
+        </Typography.Title>
+        <Form.Item
+          name="biomassSaved"
+          label="Estimate of non-renewable biomass saved per household"
+          rules={[
+            { required: true },
+            { pattern: numberRegex, message: "Please enter number only." },
+          ]}
+        >
+          <Input addonAfter={"kg"} />
+        </Form.Item>
+        <Form.Item
+          name="alternativeBiomassUsage"
+          label="Description of alternative biomass usage, if any."
+          rules={[{ required: true }]}
+        >
+          <Input />
+        </Form.Item>
+
         <Form.Item className="flex items-center justify-center">
           <Button type="primary" htmlType="submit" loading={isPending}>
             Submit
