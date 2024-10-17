@@ -1,18 +1,7 @@
 "use client";
 import useAxiosAuth from "@/libs/hooks/useAxiosHook";
 import { useQuery } from "@tanstack/react-query";
-import {
-  Button,
-  Descriptions,
-  Divider,
-  Flex,
-  Image,
-  Modal,
-  Pagination,
-  Radio,
-  Table,
-  Typography,
-} from "antd";
+import { Button, Modal, Pagination, Table } from "antd";
 import { useSession } from "next-auth/react";
 import { EyeOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
@@ -102,40 +91,6 @@ const DataTable: React.FC<{ isAdmin?: boolean }> = ({ isAdmin }) => {
         );
       },
     },
-    // {
-    //   title: "Photo 2",
-    //   dataIndex: "photo_2",
-    //   key: "photo_2",
-    //   render: (data: string) => {
-    //     return (
-    //       <div className="!cursor-pointer">
-    //         <EyeOutlined
-    //           onClick={() => {
-    //             setOpenModal(true);
-    //             setModalData({ img: data, title: "Photo 2" });
-    //           }}
-    //         />
-    //       </div>
-    //     );
-    //   },
-    // },
-    // {
-    //   title: "Photo 3",
-    //   dataIndex: "photo_3",
-    //   key: "photo_3",
-    //   render: (data: string) => {
-    //     return (
-    //       <div className="cursor-pointer">
-    //         <EyeOutlined
-    //           onClick={() => {
-    //             setOpenModal(true);
-    //             setModalData({ img: data, title: "Photo 3" });
-    //           }}
-    //         />
-    //       </div>
-    //     );
-    //   },
-    // },
   ];
 
   return (
